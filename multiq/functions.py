@@ -4,6 +4,7 @@ from multiq import DEVICE
 
 
 def eval_policy(policy, eval_env, max_episode_steps, eval_episodes=10):
+    policy.eval()
     avg_reward = 0.
     for _ in range(eval_episodes):
         state, done = eval_env.reset(), False
