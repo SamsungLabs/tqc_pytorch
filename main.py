@@ -44,6 +44,7 @@ def main(args):
     episode_timesteps = 0
     episode_num = 0
 
+    actor.train()
     for t in range(int(args.max_timesteps)):
         action = actor.select_action(state)
         next_state, reward, done, _ = env.step(action)

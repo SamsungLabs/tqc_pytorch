@@ -39,9 +39,6 @@ class Trainer(object):
 		state, action, next_state, reward, not_done = replay_buffer.sample(batch_size)
 		alpha = torch.exp(self.log_alpha)
 
-		# stochastic mode and log_prob evaluation
-		self.actor.train()
-
 		# --- Q loss ---
 		with torch.no_grad():
 			# get policy action
