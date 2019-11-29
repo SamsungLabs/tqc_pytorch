@@ -56,7 +56,7 @@ class Trainer(object):
 		critic_loss = quantile_huber_loss_f(cur_z, target)
 
 		# --- Policy and alpha loss ---
-		new_action, log_pi = self.actor(next_state)
+		new_action, log_pi = self.actor(state)
 		alpha_loss = -self.log_alpha * (log_pi + self.target_entropy).detach().mean()
 		actor_loss = (alpha * log_pi - self.critic(state, new_action).mean(2).mean(1, keepdim=True)).mean()
 
