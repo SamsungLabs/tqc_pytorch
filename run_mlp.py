@@ -68,7 +68,7 @@ if __name__ == '__main__':
     git_hash = check_git_get_hash()
 
     parser = argparse.ArgumentParser(description="Run jobs on MLP cluster")
-    parser.add_argument('--config', type=str, help='Path to config.yaml.' 
+    parser.add_argument('--config', type=str, help='Path to config_ant.yaml.'
                         'By default "common" section will be applied to all task_configs' 
                         ' and all lists will be expanded')
     args = parser.parse_args()
@@ -100,7 +100,7 @@ if __name__ == '__main__':
             job_id = config['index']
         pprint(task_config)
         cmd_line_option = dict_to_cmd_args(task_config)
-        cmd_option = f"--seed {job_id} --prefix {job_name} --log_dir {LOG_DIR}  {cmd_line_option}"
-        final_cmd = f'odc mlp create job {job_name}-{job_id} {odc_params_str} -e "cd ~/multiq && git fetch && git checkout {git_hash} && bash ~/rlkit_default/mlp_launcher.sh {cmd_option}"'
+        cmd_option = f"--save_model --seed {job_id} --prefix {job_name} --log_dir {LOG_DIR}  {cmd_line_option}"
+        final_cmd = f'odc mlp create job {job_name}-{job_id} {odc_params_str} -e "cd ~/multiq && git fetch && git checkout {git_hash} && bash ~/multiq/mlp_launcher.sh {cmd_option}"'
         os.system(final_cmd)
         start_index += cur_job_n_tasks

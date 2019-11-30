@@ -16,7 +16,7 @@ from multiq.functions import eval_policy
 EPISODE_LENGTH = 1000
 
 
-def main(args, results_dir, models_dir):
+def main(args, results_dir, models_dir, prefix):
     # --- Init ---
 
     # remove TimeLimit
@@ -75,7 +75,7 @@ def main(args, results_dir, models_dir):
 
         # Evaluate episode
         if (t + 1) % args.eval_freq == 0:
-            file_name = f"{args.env}_{args.seed}"
+            file_name = f"{prefix}_{args.env}_{args.seed}"
             evaluations.append(eval_policy(actor, eval_env, EPISODE_LENGTH))
             np.save(results_dir / file_name, evaluations)
             if args.save_model: trainer.save(models_dir / file_name)
@@ -94,6 +94,7 @@ if __name__ == "__main__":
     parser.add_argument("--discount", default=0.99)                 # Discount factor
     parser.add_argument("--tau", default=0.005)                     # Target network update rate
     parser.add_argument("--log_dir", default='.')  # Target network update rate
+    parser.add_argument("--prefix", default='')  # Target network update rate
     parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
     args = parser.parse_args()
 
@@ -107,4 +108,4 @@ if __name__ == "__main__":
     if args.save_model and not os.path.exists(models_dir):
         os.makedirs(models_dir)
 
-    main(args, results_dir, models_dir)
+    main(args, results_dir, models_dir, args.prefix)
