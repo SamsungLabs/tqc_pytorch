@@ -4,6 +4,8 @@ import gym
 import argparse
 import os
 import copy
+from pathlib import Path
+
 
 from multiq import structures, DEVICE
 from multiq.trainer import Trainer
@@ -14,7 +16,7 @@ from multiq.functions import eval_policy
 EPISODE_LENGTH = 1000
 
 
-def main(args):
+def main(args, results_dir, models_dir):
     # --- Init ---
 
     # remove TimeLimit
@@ -75,8 +77,8 @@ def main(args):
         if (t + 1) % args.eval_freq == 0:
             file_name = f"{args.env}_{args.seed}"
             evaluations.append(eval_policy(actor, eval_env, EPISODE_LENGTH))
-            np.save(f"./results/{file_name}", evaluations)
-            if args.save_model: trainer.save(f"./models/{file_name}")
+            np.save(results_dir / file_name, evaluations)
+            if args.save_model: trainer.save(models_dir / file_name)
 
 
 if __name__ == "__main__":
@@ -91,13 +93,18 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", default=256, type=int)      # Batch size for both actor and critic
     parser.add_argument("--discount", default=0.99)                 # Discount factor
     parser.add_argument("--tau", default=0.005)                     # Target network update rate
+    parser.add_argument("--log_dir", default='.')  # Target network update rate
     parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
     args = parser.parse_args()
 
-    if not os.path.exists("./results"):
-        os.makedirs("./results")
+    log_dir = Path(args.log_dir)
 
-    if args.save_model and not os.path.exists("./models"):
-        os.makedirs("./models")
+    results_dir = log_dir / 'results'
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
 
-    main(args)
+    models_dir = log_dir / 'models'
+    if args.save_model and not os.path.exists(models_dir):
+        os.makedirs(models_dir)
+
+    main(args, results_dir, models_dir)
