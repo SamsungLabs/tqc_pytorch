@@ -25,11 +25,12 @@ def main(args):
     action_dim = env.action_space.shape[0]
 
     replay_buffer = structures.ReplayBuffer(state_dim, action_dim)
-    actor = Actor(state_dim, action_dim).to(DEVICE)
+    actor = Actor(state_dim, action_dim, env.action_space.high[0]).to(DEVICE)
     critic = Critic(state_dim, action_dim, args.n_quantiles, args.n_nets).to(DEVICE)
     critic_target = copy.deepcopy(critic)
 
     top_quantiles_to_drop = args.top_quantiles_to_drop_per_net * args.n_nets
+
     trainer = Trainer(actor=actor,
                       critic=critic,
                       critic_target=critic_target,

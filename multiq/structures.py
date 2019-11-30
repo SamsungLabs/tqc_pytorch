@@ -78,9 +78,10 @@ class Critic(Module):
 
 
 class Actor(Module):
-    def __init__(self, state_dim, action_dim):
+    def __init__(self, state_dim, action_dim, max_action):
         super().__init__()
         self.action_dim = action_dim
+        self.max_action = max_action
         self.net = Mlp(state_dim, [256, 256], 2 * action_dim)
 
     def forward(self, obs):
@@ -91,10 +92,11 @@ class Actor(Module):
             std = torch.exp(log_std)
             tanh_normal = TanhNormal(mean, std)
             action, pre_tanh = tanh_normal.rsample()
+            action = action * self.max_action
             log_prob = tanh_normal.log_prob(pre_tanh)
             log_prob = log_prob.sum(dim=1, keepdim=True)
         else:  # deterministic eval without log_prob computation
-            action = torch.tanh(mean)
+            action = torch.tanh(mean) * self.max_action
             log_prob = None
         return action, log_prob
 
