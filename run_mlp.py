@@ -43,7 +43,7 @@ def dict_to_cmd_args(d, prefix_keys=None):
     if isinstance(d, dict):
         return ' '.join([dict_to_cmd_args(d[k], prefix_keys + [k]) for k in d])
     else:
-        return f"{'.'.join(prefix_keys)}={d}"
+        return f"--{'.'.join(prefix_keys)} {d}"
 
 
 def get_config(conf_path):
