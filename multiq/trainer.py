@@ -31,7 +31,7 @@ class Trainer(object):
 		self.top_quantiles_to_drop = top_quantiles_to_drop
 		self.target_entropy = target_entropy
 
-
+		self.quantiles_total = critic.n_quantiles * critic.n_nets
 
 		self.total_it = 0
 
@@ -47,7 +47,7 @@ class Trainer(object):
 			# compute and cut quantiles at the next state
 			next_z = self.critic_target(next_state, new_next_action)  # batch x nets x quantiles
 			sorted_z, _ = torch.sort(next_z.reshape(batch_size, -1))
-			sorted_z_part = sorted_z[:, :-self.top_quantiles_to_drop]
+			sorted_z_part = sorted_z[:, :self.quantiles_total-self.top_quantiles_to_drop]
 
 			# compute target
 			target = reward + not_done * self.discount * (sorted_z_part - alpha * next_log_pi)

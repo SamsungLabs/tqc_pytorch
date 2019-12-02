@@ -66,6 +66,8 @@ class Critic(Module):
     def __init__(self, state_dim, action_dim, n_quantiles, n_nets):
         super().__init__()
         self.nets = []
+        self.n_quantiles = n_quantiles
+        self.n_nets = n_nets
         for i in range(n_nets):
             net = Mlp(state_dim + action_dim, [512, 512, 512], n_quantiles)
             self.add_module(f'qf{i}', net)
