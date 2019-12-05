@@ -90,8 +90,8 @@ if __name__ == "__main__":
     parser.add_argument("--top_quantiles_to_drop_per_net", default=2, type=int)
     parser.add_argument("--n_nets", default=5, type=int)
     parser.add_argument("--batch_size", default=256, type=int)      # Batch size for both actor and critic
-    parser.add_argument("--discount", default=0.99)                 # Discount factor
-    parser.add_argument("--tau", default=0.005)                     # Target network update rate
+    parser.add_argument("--discount", default=0.99, type=float)                 # Discount factor
+    parser.add_argument("--tau", default=0.005, type=float)                     # Target network update rate
     parser.add_argument("--log_dir", default='.')  # Target network update rate
     parser.add_argument("--prefix", default='')  # Target network update rate
     parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
