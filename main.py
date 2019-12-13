@@ -28,7 +28,7 @@ def main(args, results_dir, models_dir, prefix):
 
     replay_buffer = structures.ReplayBuffer(state_dim, action_dim)
     actor = Actor(state_dim, action_dim, env.action_space.high[0]).to(DEVICE)
-    critic = Critic(state_dim, action_dim, args.n_quantiles, args.n_nets).to(DEVICE)
+    critic = Critic(state_dim, action_dim, args.n_quantiles, args.n_nets, args.depth, args.width).to(DEVICE)
     critic_target = copy.deepcopy(critic)
 
     top_quantiles_to_drop = args.top_quantiles_to_drop_per_net * args.n_nets
@@ -95,6 +95,8 @@ if __name__ == "__main__":
     parser.add_argument("--log_dir", default='.')  # Target network update rate
     parser.add_argument("--prefix", default='')  # Target network update rate
     parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
+    parser.add_argument("--depth", type=int, default=0)
+    parser.add_argument("--width", type=int, default=0)
     args = parser.parse_args()
 
     log_dir = Path(args.log_dir)

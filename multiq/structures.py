@@ -63,19 +63,30 @@ class ReplayBuffer(object):
 
 
 class Critic(Module):
-    def __init__(self, state_dim, action_dim, n_quantiles, n_nets):
+    def __init__(self, state_dim, action_dim, n_quantiles, n_nets, depth, width):
         super().__init__()
         self.nets = []
+        self.small_nets = []
         self.n_quantiles = n_quantiles
         self.n_nets = n_nets
         for i in range(n_nets):
-            net = Mlp(state_dim + action_dim, [512, 512, 512], n_quantiles)
+            self.small_nets.append([])
+            net = Mlp(state_dim + action_dim, [512] * (3 - depth), 512)
             self.add_module(f'qf{i}', net)
             self.nets.append(net)
+            for j in range(n_quantiles):
+                small_net = Mlp(512, [width] * depth, 1)
+                self.small_nets[-1].append(small_net)
+                self.add_module(f'qf_small_{i}_{j}', small_net)
 
     def forward(self, state, action):
         sa = torch.cat((state, action), dim=1)
-        quantiles = torch.stack(tuple(net(sa) for net in self.nets), dim=1)
+        quantiles_list = []
+        for i in range(self.n_nets):
+            general_part = self.nets[i](sa)
+            output = torch.cat(tuple(small_net(general_part) for small_net in self.small_nets[i]), dim=1)
+            quantiles_list.append(output)
+        quantiles = torch.stack(quantiles_list, dim=1)
         return quantiles
 
 
