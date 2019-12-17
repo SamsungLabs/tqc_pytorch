@@ -9,7 +9,7 @@ from pathlib import Path
 
 from multiq import structures, DEVICE
 from multiq.trainer import Trainer
-from multiq.structures import Actor, Critic
+from multiq.structures import Actor, Critic, RescaleAction
 from multiq.functions import eval_policy
 
 
@@ -23,11 +23,14 @@ def main(args, results_dir, models_dir, prefix):
     env = gym.make(args.env).unwrapped
     eval_env = gym.make(args.env).unwrapped
 
+    env = RescaleAction(env, -1., 1.)
+    eval_env = RescaleAction(env, -1., 1.)
+
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
 
     replay_buffer = structures.ReplayBuffer(state_dim, action_dim)
-    actor = Actor(state_dim, action_dim, env.action_space.high[0]).to(DEVICE)
+    actor = Actor(state_dim, action_dim).to(DEVICE)
     critic = Critic(state_dim, action_dim, args.n_quantiles, args.n_nets, args.depth, args.width).to(DEVICE)
     critic_target = copy.deepcopy(critic)
 

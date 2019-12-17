@@ -3,12 +3,34 @@ import torch
 from torch.nn import Module, Linear
 from torch.distributions import Distribution, Normal
 from torch.nn.functional import relu, logsigmoid
+from gym import spaces
+import gym
 
 
 from multiq import DEVICE
 
 
 LOG_STD_MIN_MAX = (-20, 2)
+
+
+class RescaleAction(gym.ActionWrapper):
+    def __init__(self, env, a, b):
+        assert isinstance(env.action_space, spaces.Box), (
+            "expected Box action space, got {}".format(type(env.action_space)))
+        assert np.less_equal(a, b).all(), (a, b)
+        super(RescaleAction, self).__init__(env)
+        self.a = np.zeros(env.action_space.shape, dtype=env.action_space.dtype) + a
+        self.b = np.zeros(env.action_space.shape, dtype=env.action_space.dtype) + b
+        self.action_space = spaces.Box(low=a, high=b, shape=env.action_space.shape, dtype=env.action_space.dtype)
+
+    def action(self, action):
+        assert np.all(np.greater_equal(action, self.a)), (action, self.a)
+        assert np.all(np.less_equal(action, self.b)), (action, self.b)
+        low = self.env.action_space.low
+        high = self.env.action_space.high
+        action = low + (high - low)*((action - self.a)/(self.b - self.a))
+        action = np.clip(action, low, high)
+        return action
 
 
 class Mlp(Module):
@@ -91,10 +113,9 @@ class Critic(Module):
 
 
 class Actor(Module):
-    def __init__(self, state_dim, action_dim, max_action):
+    def __init__(self, state_dim, action_dim):
         super().__init__()
         self.action_dim = action_dim
-        self.max_action = max_action
         self.net = Mlp(state_dim, [256, 256], 2 * action_dim)
 
     def forward(self, obs):
@@ -105,11 +126,10 @@ class Actor(Module):
             std = torch.exp(log_std)
             tanh_normal = TanhNormal(mean, std)
             action, pre_tanh = tanh_normal.rsample()
-            action = action * self.max_action
             log_prob = tanh_normal.log_prob(pre_tanh)
             log_prob = log_prob.sum(dim=1, keepdim=True)
         else:  # deterministic eval without log_prob computation
-            action = torch.tanh(mean) * self.max_action
+            action = torch.tanh(mean)
             log_prob = None
         return action, log_prob
 
