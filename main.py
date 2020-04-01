@@ -24,7 +24,7 @@ def main(args, results_dir, models_dir, prefix):
     eval_env = gym.make(args.env).unwrapped
 
     env = RescaleAction(env, -1., 1.)
-    eval_env = RescaleAction(env, -1., 1.)
+    eval_env = RescaleAction(eval_env, -1., 1.)
 
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
@@ -86,7 +86,7 @@ def main(args, results_dir, models_dir, prefix):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--env", default="Humanoid-v3")          # OpenAI gym environment name
-    parser.add_argument("--eval_freq", default=5e3, type=int)       # How often (time steps) we evaluate
+    parser.add_argument("--eval_freq", default=1e3, type=int)       # How often (time steps) we evaluate
     parser.add_argument("--max_timesteps", default=1e6, type=int)   # Max time steps to run environment
     parser.add_argument("--seed", default=0, type=int)
     parser.add_argument("--n_quantiles", default=25, type=int)
@@ -95,8 +95,8 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", default=256, type=int)      # Batch size for both actor and critic
     parser.add_argument("--discount", default=0.99, type=float)                 # Discount factor
     parser.add_argument("--tau", default=0.005, type=float)                     # Target network update rate
-    parser.add_argument("--log_dir", default='.')  # Target network update rate
-    parser.add_argument("--prefix", default='')  # Target network update rate
+    parser.add_argument("--log_dir", default='.')
+    parser.add_argument("--prefix", default='')
     parser.add_argument("--save_model", action="store_true")        # Save model and optimizer parameters
     args = parser.parse_args()
 
