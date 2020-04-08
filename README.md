@@ -2,16 +2,16 @@
 
 This repository implements continuous reinforcement learning method TQC, described in paper "Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics" (link) on PyTorch.
 
-### Requirements
+## Requirements
 
-## Install MuJoCo
+### Install MuJoCo
 
 1. [Download](https://www.roboti.us/index.html) and install MuJoCo 1.50 from the MuJoCo website. We assume that the MuJoCo files are extracted to the default location (`~/.mujoco/mjpro150`). Gym and MuJoCo 2.0 have integration bug, where Gym doesn't process contanct forces correctly for environments Humanoid and Ant.
 Please use MuJoCo 1.5.
 
 2. Copy your MuJoCo license key (mjkey.txt) to ~/.mujoco/mjkey.txt:
 
-## Create anaconda environment
+### Create anaconda environment
 
 Create anaconda environment from provided environment.yaml file:
 
@@ -25,7 +25,7 @@ It essentially consists of ```gym==0.12.5, mujoco-py==1.50.1.68, pytorch=1.3.0, 
 
 Environment contains ```mujoco-py``` library which [may require](https://github.com/openai/mujoco-py) to install additional libraries depending on OS.
 
-### Usage
+## Usage
 Experiments on single environments can be run by calling:
 
 ```
