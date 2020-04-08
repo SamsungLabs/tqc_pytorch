@@ -1,4 +1,4 @@
-# Controlling Overestimation Bias with Truncated Mixture of ContinuousDistributional Quantile Critics
+# Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics
 
 This repository implements continuous reinforcement learning method TQC, described in paper "Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics" (link) on PyTorch.
 
@@ -36,10 +36,10 @@ Hyper-parameters can be modified with different arguments to main.py.
 
 Number of atoms to remove for each environment:
     
-    | Environment        | alg_top_crop_quantiles  |
-    | ------------- |:-------------:|
-    | Hopper           | 5 |
-    | HalfCheetah      | 0 |
-    | Walker2d         | 2 |
-    | Ant              | 2 |
-    | Humanoid         | 2 |
+| Environment        | top_quantiles_to_drop_per_net  |
+| ------------- |:-------------:|
+| Hopper           | 5 |
+| HalfCheetah      | 0 |
+| Walker2d         | 2 |
+| Ant              | 2 |
+| Humanoid         | 2 |
