@@ -1,6 +1,9 @@
 # Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics
 
+<img src="https://github.com/bayesgroup/bayesgroup.github.io/blob/master/tqc/assets/tqc/main_exps_pytorch.svg">
+
 This repository implements continuous reinforcement learning method TQC, described in paper "Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics" (link) on PyTorch.
+Official implementation on Tensorflow can be found [here](https://github.com/bayesgroup/tqc).
 
 ## Requirements
 
