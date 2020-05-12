@@ -3,7 +3,7 @@
 <img src="https://github.com/bayesgroup/bayesgroup.github.io/blob/master/tqc/assets/tqc/main_exps_pytorch.svg">
 
 This repository implements continuous reinforcement learning method TQC, described in paper ["Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics"](https://arxiv.org/abs/2005.04269) on PyTorch.
-Official implementation on Tensorflow can be found [here](https://github.com/bayesgroup/tqc).
+Official implementation on Tensorflow can be found [here](https://github.com/bayesgroup/tqc). Source code is based on [TD3](https://github.com/sfujim/TD3), and we thank the authors for their efforts.
 
 ## Requirements
 
@@ -46,3 +46,4 @@ Number of atoms to remove for each environment:
 | Walker2d         | 2 |
 | Ant              | 2 |
 | Humanoid         | 2 |
+
