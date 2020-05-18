@@ -7,10 +7,10 @@ import copy
 from pathlib import Path
 
 
-from multiq import structures, DEVICE
-from multiq.trainer import Trainer
-from multiq.structures import Actor, Critic, RescaleAction
-from multiq.functions import eval_policy
+from tqc import structures, DEVICE
+from tqc.trainer import Trainer
+from tqc.structures import Actor, Critic, RescaleAction
+from tqc.functions import eval_policy
 
 
 EPISODE_LENGTH = 1000

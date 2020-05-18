@@ -1,7 +1,7 @@
 import torch
 
-from multiq.functions import quantile_huber_loss_f
-from multiq import DEVICE
+from tqc.functions import quantile_huber_loss_f
+from tqc import DEVICE
 
 
 class Trainer(object):
