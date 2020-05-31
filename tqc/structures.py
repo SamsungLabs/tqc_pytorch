@@ -7,7 +7,7 @@ from gym import spaces
 import gym
 
 
-from multiq import DEVICE
+from tqc import DEVICE
 
 
 LOG_STD_MIN_MAX = (-20, 2)

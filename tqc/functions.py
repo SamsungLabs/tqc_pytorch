@@ -1,6 +1,6 @@
 import torch
 
-from multiq import DEVICE
+from tqc import DEVICE
 
 
 def eval_policy(policy, eval_env, max_episode_steps, eval_episodes=10):
