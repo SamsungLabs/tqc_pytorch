@@ -20,11 +20,11 @@ Create anaconda environment from provided environment.yaml file:
 
 ```
 cd ${SOURCE_PATH}
-conda env create -f environment.yml 
+conda env create -f environment.yml
 conda activate tqc
 ```
 
-It essentially consists of ```gym==0.12.5, mujoco-py==1.50.1.68, pytorch=1.3.0, torchvision=0.2.1```.
+It essentially consists of ```gym==0.12.5, mujoco-py==1.50.1.68, pytorch==1.3.0, torchvision==0.2.1```.
 
 Environment contains ```mujoco-py``` library which [may require](https://github.com/openai/mujoco-py) to install additional libraries depending on OS.
 
@@ -38,7 +38,7 @@ python main.py --env Walker2d --top_quantiles_to_drop_per_net 2
 Hyper-parameters can be modified with different arguments to main.py.
 
 Number of atoms to remove for each environment:
-    
+
 | Environment        | top_quantiles_to_drop_per_net  |
 | ------------- |:-------------:|
 | Hopper           | 5 |
